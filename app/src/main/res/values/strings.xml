@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Watchon</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="movie">Movie</string>
+    <string name="tv">TV</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="image_poster">Image Poster</string>
+    <string name="text_lorem_ipsum">Lorem Ipsum</string>
+    <string name="popularity">Popularity</string>
+    <string name="text_release_date">Release Date</string>
+    <string name="text_language">Language</string>
+    <string name="text_popularity">Popularity</string>
+    <string name="text_overview">Overview</string>
+    <string name="score">Score</string>
+</resources>

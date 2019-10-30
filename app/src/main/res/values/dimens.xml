@@ -1,0 +1,24 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="dimen0">0dp</dimen>
+    <dimen name="dimen1">1dp</dimen>
+    <dimen name="dimen4">4dp</dimen>
+    <dimen name="dimen10">10dp</dimen>
+    <dimen name="dimen12">12dp</dimen>
+    <dimen name="dimen16">16dp</dimen>
+    <dimen name="dimen24">24dp</dimen>
+    <dimen name="dimen150">150dp</dimen>
+    <dimen name="dimen100">100dp</dimen>
+    <dimen name="dimen120">120dp</dimen>
+    <dimen name="dimen140">140dp</dimen>
+
+    //font size
+    <dimen name="font14">14sp</dimen>
+    <dimen name="font16">16sp</dimen>
+    <dimen name="font24">24sp</dimen>
+    <dimen name="font64">64sp</dimen>
+    <dimen name="font100">100sp</dimen>
+    <dimen name="dimen320">320dp</dimen>
+    <dimen name="dimen32">32dp</dimen>
+    <dimen name="dimen64">64dp</dimen>
+</resources>
