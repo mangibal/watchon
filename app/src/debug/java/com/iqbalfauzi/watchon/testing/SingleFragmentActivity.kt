@@ -31,10 +31,10 @@ class SingleFragmentActivity : AppCompatActivity() {
         }
     }
 
-    fun replaceFragment(fragment: Fragment) {
+    /*fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.commitNow(allowStateLoss = true) {
             replace(R.id.frame, fragment, "TEST")
         }
-    }
+    }*/
 
 }
