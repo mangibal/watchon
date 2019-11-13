@@ -17,8 +17,8 @@ import org.junit.Test
  */
 class DetailActivityTest {
 
-    private val dummyMovie = FakeDataDummy.getDataMovies()[0]
-    private val dummyTv = FakeDataDummy.getDataTv()[0]
+    private val dummyMovie = FakeDataDummy.getDummyMovies()[0]
+    private val dummyTv = FakeDataDummy.getDummyTvShows()[0]
 
     /*
     * Set movie if will test movie and tv if will test tv on putExtra
@@ -40,17 +40,17 @@ class DetailActivityTest {
     fun loadItem() {
         //cek isDisplayed
         onView(withId(R.id.iv_poster)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_title_detail)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_release_date_constraint)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_title_score)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_date)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_date_detail)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_score)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_overview_constraint)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_overview)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_overview_detail)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tv_title)).check(matches(withText(dummyMovie.title)))
-        onView(withId(R.id.tv_date)).check(matches(withText(dummyMovie.date)))
-        onView(withId(R.id.tv_score)).check(matches(withText(dummyMovie.score.toString())))
-        onView(withId(R.id.tv_overview)).check(matches(withText(dummyMovie.overview)))
+        onView(withId(R.id.tv_title_detail)).check(matches(withText(dummyMovie.title)))
+        onView(withId(R.id.tv_date_detail)).check(matches(withText(dummyMovie.releaseDate?:dummyMovie.firstAirDate)))
+        onView(withId(R.id.tv_score)).check(matches(withText(dummyMovie.voteAverage.toString())))
+        onView(withId(R.id.tv_overview_detail)).check(matches(withText(dummyMovie.overview)))
     }
 }

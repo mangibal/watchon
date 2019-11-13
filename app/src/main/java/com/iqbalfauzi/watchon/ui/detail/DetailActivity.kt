@@ -51,20 +51,17 @@ class DetailActivity : AppCompatActivity() {
         val url = BuildConfig.BASE_URL_IMAGE
         with(dataBinding) {
             pbLoading.hide()
-            supportActionBar?.apply {
-                title = data.title ?: data.name
-            }
-//            tvTitle.text = data.title?:data.name
-            tvDate.text = if (type == "movie") {
+            tvTitleDetail.text = data.title?:data.name
+            tvDateDetail.text = if (type == "movie") {
                 data.releaseDate ?: "-"
             } else data.firstAirDate ?: "-"
             tvScore.text = data.voteAverage.toString()
-            tvOverview.text = data.overview
+            tvOverviewDetail.text = data.overview
             Glide.with(root)
-                .load(url + data.backdropPath)
-                .apply(RequestOptions().centerCrop())
-                .apply(RequestOptions().placeholder(Utils.createCircularProgressDrawable(this@DetailActivity)))
-                .into(ivPoster)
+                    .load(url + data.backdropPath)
+                    .apply(RequestOptions().centerCrop())
+                    .apply(RequestOptions().placeholder(Utils.createCircularProgressDrawable(this@DetailActivity)))
+                    .into(ivPoster)
         }
     }
 
@@ -78,7 +75,7 @@ class DetailActivity : AppCompatActivity() {
             setSupportActionBar(toolbar)
             toolbar.apply {
                 navigationIcon =
-                    ContextCompat.getDrawable(this@DetailActivity, R.drawable.ic_arrow_back_white)
+                        ContextCompat.getDrawable(this@DetailActivity, R.drawable.ic_arrow_back_white)
                 setNavigationOnClickListener { onBackPressed() }
             }
         }

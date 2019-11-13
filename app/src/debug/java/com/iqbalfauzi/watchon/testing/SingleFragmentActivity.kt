@@ -27,7 +27,7 @@ class SingleFragmentActivity : AppCompatActivity() {
 
     fun setFragment(fragment: Fragment) {
         supportFragmentManager.commitNow(allowStateLoss = true) {
-            replace(R.id.frame, fragment, "TEST")
+            replace(R.id.nav_host_fragment, fragment, "TEST")
         }
     }
 

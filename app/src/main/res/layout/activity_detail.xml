@@ -26,7 +26,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/image_banner" />
 
                     <ProgressBar
                         android:id="@+id/pb_loading"
@@ -47,13 +48,12 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_title"
+                        android:id="@+id/tv_title_detail"
                         style="@style/TextTitleSuperExtraBig"
                         android:layout_marginStart="@dimen/dimen16"
-                        android:text="@string/text_lorem_ipsum"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -88,16 +88,17 @@
                     android:id="@+id/tv_release_date_constraint"
                     style="@style/TextTitleNormal"
                     android:text="@string/text_release_date"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_date"
+                    app:layout_constraintBottom_toTopOf="@id/tv_date_detail"
                     app:layout_constraintEnd_toStartOf="@id/line_vertical_1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_date"
+                    android:id="@+id/tv_date_detail"
                     style="@style/TextTitleBig"
                     android:layout_marginTop="@dimen/dimen4"
                     android:textStyle="bold"
+                    android:text="-"
                     app:layout_constraintBottom_toTopOf="@+id/line_horizontal_1"
                     app:layout_constraintLeft_toLeftOf="@+id/tv_release_date_constraint"
                     app:layout_constraintRight_toRightOf="@+id/tv_release_date_constraint"
@@ -106,7 +107,7 @@
                 <View
                     android:id="@+id/line_vertical_1"
                     style="@style/LineVertical"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_date"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_date_detail"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_release_date_constraint" />
@@ -125,6 +126,7 @@
                     style="@style/TextTitleBig"
                     android:layout_marginTop="@dimen/dimen4"
                     android:textStyle="bold"
+                    android:text="-"
                     app:layout_constraintLeft_toLeftOf="@+id/tv_title_score"
                     app:layout_constraintRight_toRightOf="@+id/tv_title_score"
                     app:layout_constraintTop_toBottomOf="@+id/tv_title_score" />
@@ -137,21 +139,22 @@
                     app:layout_constraintBottom_toTopOf="@+id/tv_overview_constraint"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_date_detail" />
 
                 <TextView
                     android:id="@+id/tv_overview_constraint"
                     style="@style/TextTitleBig"
                     android:text="@string/text_overview"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/tv_overview"
+                    app:layout_constraintBottom_toTopOf="@id/tv_overview_detail"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/line_horizontal_1" />
 
                 <TextView
-                    android:id="@+id/tv_overview"
+                    android:id="@+id/tv_overview_detail"
                     style="@style/TextTitleNormal"
                     android:layout_marginTop="@dimen/dimen16"
+                    android:text="-"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
