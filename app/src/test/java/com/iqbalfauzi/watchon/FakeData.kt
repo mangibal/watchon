@@ -1,4 +1,4 @@
-package com.iqbalfauzi.watchon.utils
+package com.iqbalfauzi.watchon
 
 import com.iqbalfauzi.watchon.R
 import com.iqbalfauzi.watchon.data.ItemEntity
@@ -7,8 +7,7 @@ import com.iqbalfauzi.watchon.data.repository.ItemListEntity
 /**
  * Created by Iqbal Fauzi on 15:38 16/10/19
  */
-object DataDummy {
-
+object FakeData {
     fun getDummyMovies(): List<ItemListEntity> {
         return listOf(
             //1
@@ -299,106 +298,156 @@ object DataDummy {
         )
     }
 
-    fun getDataMovies(): ArrayList<ItemEntity> {
-        val movies = ArrayList<ItemEntity>()
+    fun getDataMovies(): ArrayList<ItemListEntity> {
+        val movies = ArrayList<ItemListEntity>()
         movies.add(
-            ItemEntity(
-                1,
-                "A Star Is Born",
-                "2018-10-03",
-                75,
-                "Seasoned musician Jackson Maine discovers — and falls in love with — struggling artist Ally. She has just about given up on her dream to make it big as a singer — until Jack coaxes her into the spotlight. But even as Ally's career takes off, the personal side of their relationship is breaking down, as Jack fights an ongoing battle with his own internal demons.",
-                R.drawable.poster_a_start_is_born
+            ItemListEntity(
+                "/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
+                "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure",
+                "2019-10-04",
+                475557,
+                "Joker",
+                "en",
+                "Joker",
+                "/n6bUvigpRFqSwmPp1m2YADdbRBc.jpg",
+                8.5,
+                null,
+                null
             )
         )
         movies.add(
-            ItemEntity(
-                2,
-                "Alita: Battle Angel",
-                "2019-01-31",
-                69,
-                "When Alita awakens with no memory of who she is in a future world she does not recognize, she is taken in by Ido, a compassionate doctor who realizes that somewhere in this abandoned cyborg shell is the heart and soul of a young woman with an extraordinary past.",
-                R.drawable.poster_alita
+            ItemListEntity(
+                "/vqzNJRH4YyquRiWxCCOH0aXggHI.jpg",
+                "More than two decades have passed since Sarah Connor prevented Judgment Day, changed the future, and re-wrote the fate of the human race. Dani Ramos is living a simple life in Mexico City with her brother and father when a highly advanced and deadly new Terminator – a Rev-9 – travels back through time to hunt and kill her. Dani's survival depends on her joining forces with two warriors: Grace, an enhanced super-soldier from the future, and a battle-hardened Sarah Connor. As the Rev-9 ruthlessly destroys everything and everyone in its path on the hunt for Dani, the three are led to a T-800 from Sarah’s past that may be their last best hope.",
+                "2019-11-01",
+                290859,
+                "Terminator: Dark Fate",
+                "en",
+                "Terminator: Dark Fate",
+                "/rtf4vjjLZLalpOzDUi0Qd2GTUqq.jpg",
+                6.5,
+                null,
+                null
             )
         )
         movies.add(
-            ItemEntity(
-                3,
-                "Aquaman",
-                "2018-12-07",
-                68,
-                "Once home to the most advanced civilization on Earth, Atlantis is now an underwater kingdom ruled by the power-hungry King Orm. With a vast army at his disposal, Orm plans to conquer the remaining oceanic people and then the surface world. Standing in his way is Arthur Curry, Orm's half-human, half-Atlantean brother and true heir to the throne.",
-                R.drawable.poster_aquaman
+            ItemListEntity(
+                "/tBuabjEqxzoUBHfbyNbd8ulgy5j.jpg",
+                "Maleficent and her goddaughter Aurora begin to question the complex family ties that bind them as they are pulled in different directions by impending nuptials, unexpected allies, and dark new forces at play.",
+                "2019-10-18",
+                420809,
+                "Maleficent: Mistress of Evil",
+                "en",
+                "Maleficent: Mistress of Evil",
+                "/skvI4rYFrKXS73BJxWGH54Omlvv.jpg",
+                7.2,
+                null,
+                null
             )
         )
         movies.add(
-            ItemEntity(
-                4,
-                "Cold Pursuit",
-                "2019-02-07",
-                54,
-                "The quiet family life of Nels Coxman, a snowplow driver, is upended after his son's murder. Nels begins a vengeful hunt for Viking, the drug lord he holds responsible for the killing, eliminating Viking's associates one by one. As Nels draws closer to Viking, his actions bring even more unexpected and violent consequences, as he proves that revenge is all in the execution.",
-                R.drawable.poster_cold_persuit
+            ItemListEntity(
+                "/4E2lyUGLEr3yH4q6kJxPkQUhX7n.jpg",
+                "One Piece: Stampede is a stand-alone film that celebrates the anime's 20th Anniversary and takes place outside the canon of the \\\"One Piece\\\" TV series. Monkey D. Luffy and his Straw Hat pirate crew are invited to a massive Pirate Festival that brings many of the most iconic characters from throughout the franchise to participate in competition with the Straw Hats to find Roger's treasure. It also pits the Straw Hats against a new enemy named Bullet, a former member of Roger's crew.",
+                "2019-10-24",
+                568012,
+                "ワンピーススタンピード",
+                "ja",
+                "One Piece: Stampede",
+                "/iGnCzXEx0cFlUbpyAMeHwHWhPhx.jpg",
+                7.4,
+                null,
+                null
             )
         )
         movies.add(
-            ItemEntity(
-                5,
-                "Creed II",
-                "2018-11-21",
-                67,
-                "Between personal obligations and training for his next big fight against an opponent with ties to his family's past, Adonis Creed is up against the challenge of his life.",
-                R.drawable.poster_creed
+            ItemListEntity(
+                "/p69QzIBbN06aTYqRRiCOY1emNBh.jpg",
+                "A traumatized, alcoholic Dan Torrance meets Abra, a kid who also has the ability to \\\"shine.\\\" He tries to protect her from the True Knot, a cult whose goal is to feed off of people like them in order to remain immortal.",
+                "2019-11-08",
+                501170,
+                "Doctor Sleep",
+                "en",
+                "Doctor Sleep",
+                "/1nm0sk8UUx9jHCTHuMKe2jkt4Pn.jpg",
+                7.0,
+                null,
+                null
             )
         )
         movies.add(
-            ItemEntity(
-                6,
-                "Glass",
-                "2019-01-16",
-                66,
-                "In a series of escalating encounters, former security guard David Dunn uses his supernatural abilities to track Kevin Wendell Crumb, a disturbed man who has twenty-four personalities. Meanwhile, the shadowy presence of Elijah Price emerges as an orchestrator who holds secrets critical to both men.",
-                R.drawable.poster_glass
+            ItemListEntity(
+                "/8u0QBGUbZcBW59VEAdmeFl9g98N.jpg",
+                "England, 15th century. Hal, a capricious prince who lives among the populace far from court, is forced by circumstances to reluctantly accept the throne and become Henry V.",
+                "2019-10-11",
+                504949,
+                "The King",
+                "en",
+                "The King",
+                "/oMAhce30UvkgJwlzMwsuLaPJ5cG.jpg",
+                7.3,
+                null,
+                null
             )
         )
         movies.add(
-            ItemEntity(
-                7,
-                "How to Train Your Dragon: The Hidden World",
-                "2019-01-03",
-                77,
-                "As Hiccup fulfills his dream of creating a peaceful dragon utopia, Toothless’ discovery of an untamed, elusive mate draws the Night Fury away. When danger mounts at home and Hiccup’s reign as village chief is tested, both dragon and rider must make impossible decisions to save their kind.",
-                R.drawable.poster_how_to_train
+            ItemListEntity(
+                "/g4z7mDmJmx23vsVg6XNWcnXb6gc.jpg",
+                "A group of backpackers diving in a ruined underwater city discover that they have stumbled into the territory of the ocean's deadliest shark species.",
+                "2019-08-16",
+                480105,
+                "47 Meters Down: Uncaged",
+                "en",
+                "47 Meters Down: Uncaged",
+                "/3uG3aOhEzFCjcQulsJQiAzLSrw8.jpg",
+                5.0,
+                null,
+                null
             )
         )
         movies.add(
-            ItemEntity(
-                8,
-                "Avengers: Infinity War",
-                "2018-04-25",
-                83,
-                "As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.",
-                R.drawable.poster_infinity_war
+            ItemListEntity(
+                "/ePXuKdXZuJx8hHMNr2yM4jY2L7Z.jpg",
+                "In the wake of his dramatic escape from captivity, Jesse Pinkman must come to terms with his past in order to forge some kind of future.",
+                "2019-10-11",
+                559969,
+                "El Camino: A Breaking Bad Movie",
+                "en",
+                "El Camino: A Breaking Bad Movie",
+                "/ijiE9WoGSwSzM16zTxvUneJ8RXc.jpg",
+                7.1,
+                null,
+                null
             )
         )
         movies.add(
-            ItemEntity(
-                9,
-                "Ralph Breaks the Internet",
-                "2018-11-20",
-                72,
-                "Video game bad guy Ralph and fellow misfit Vanellope von Schweetz must risk it all by traveling to the World Wide Web in search of a replacement part to save Vanellope's video game, \"Sugar Rush.\" In way over their heads, Ralph and Vanellope rely on the citizens of the internet -- the netizens -- to help navigate their way, including an entrepreneur named Yesss, who is the head algorithm and the heart and soul of trend-making site BuzzzTube.",
-                R.drawable.poster_ralph
+            ItemListEntity(
+                "/tximyCXMEnWIIyOy9STkOduUprG.jpg",
+                "A group of young boys on the cusp of becoming teenagers embark on an epic quest to fix their broken drone before their parents get home.",
+                "2019-08-16",
+                521777,
+                "Good Boys",
+                "en",
+                "Good Boys",
+                "/zIZv4pPJRg3YTnWWuotwXnYu1fM.jpg",
+                6.6,
+                null,
+                null
             )
         )
         movies.add(
-            ItemEntity(
-                10,
-                "Spider-Man: Into the Spider-Verse",
-                "2018-12-06",
-                84,
-                "Miles Morales is juggling his life between being a high school student and being a spider-man. When Wilson \"Kingpin\" Fisk uses a super collider, others from across the Spider-Verse are transported to this dimension.",
-                R.drawable.poster_spiderman
+            ItemListEntity(
+                "/qdfARIhgpgZOBh3vfNhWS4hmSo3.jpg",
+                "Elsa, Anna, Kristoff and Olaf are going far in the forest to know the truth about an ancient mystery of their kingdom.",
+                "2019-11-22",
+                330457,
+                "Frozen II",
+                "en",
+                "Frozen II",
+                "/xJWPZIYOEFIjZpBL7SVBGnzRYXp.jpg",
+                7.0,
+                null,
+                null
             )
         )
         return movies

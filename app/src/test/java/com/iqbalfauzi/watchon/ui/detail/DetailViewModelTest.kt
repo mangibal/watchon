@@ -1,72 +1,81 @@
 package com.iqbalfauzi.watchon.ui.detail
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.iqbalfauzi.watchon.FakeData
 import com.iqbalfauzi.watchon.R
 import com.iqbalfauzi.watchon.data.ItemEntity
+import com.iqbalfauzi.watchon.data.repository.DataRepository
+import com.iqbalfauzi.watchon.data.repository.ItemListEntity
+import com.iqbalfauzi.watchon.ui.movie.MovieViewModel
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito
 
 /**
  * Created by Iqbal Fauzi on 14:38 24/10/19
  */
 class DetailViewModelTest {
 
-    private lateinit var viewModel: DetailViewModel
-    private var movieEntity = ItemEntity()
-    private var tvEntity = ItemEntity()
+    @get:Rule
+    var instanTaskExecutorRule = InstantTaskExecutorRule()
+
+    private var viewModel : DetailViewModel? = null
+    private val data = Mockito.mock(DataRepository::class.java)
 
     @Before
     fun setUp() {
-        viewModel = DetailViewModel()
-        movieEntity = ItemEntity(
-            1,
-            "A Star Is Born",
-            "2018-10-03",
-            75,
-            "Seasoned musician Jackson Maine discovers — and falls in love with — struggling artist Ally. She has just about given up on her dream to make it big as a singer — until Jack coaxes her into the spotlight. But even as Ally's career takes off, the personal side of their relationship is breaking down, as Jack fights an ongoing battle with his own internal demons.",
-            R.drawable.poster_a_start_is_born
-        )
-        tvEntity = ItemEntity(
-            1,
-            "Arrow",
-            "2012-10-10",
-            58,
-            "Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow.",
-            R.drawable.poster_arrow
-        )
+        viewModel = DetailViewModel(data)
     }
 
     @Test
     fun getMovieDetail() {
-        viewModel.itemId = movieEntity.id.toString()
-        val movieDetail = viewModel.getMovieDetail()
-        assertNotNull(movieDetail)
-        assertEquals(movieEntity.id, movieDetail.id)
-        assertEquals(movieEntity.title, movieDetail.title)
-        assertEquals(movieEntity.date, movieDetail.date)
-        assertEquals(movieEntity.score, movieDetail.score)
-        assertEquals(movieEntity.overview, movieDetail.overview)
+        val movies = MutableLiveData<ItemListEntity>()
+        movies.value = FakeData.getDummyMovies()[0]
+        Mockito.`when`(data.getMovieDetail(movies.value!!.id.toString())).thenReturn(movies)
+        val observer = Mockito.mock(Observer::class.java)
+        viewModel?.getMovieDetail(movies.value!!.id.toString())?.observeForever(observer as Observer<ItemListEntity>)
+        Mockito.verify(data).getMovieDetail(movies.value!!.id.toString())
+        assertEquals(movies.value!!.posterPath, viewModel?.getMovieDetail(movies.value!!.id.toString())?.value?.posterPath)
+        assertEquals(movies.value!!.overview, viewModel?.getMovieDetail(movies.value!!.id.toString())?.value?.overview)
+        assertEquals(movies.value!!.id, viewModel?.getMovieDetail(movies.value!!.id.toString())?.value?.id)
+        assertEquals(movies.value!!.originalTitle, viewModel?.getMovieDetail(movies.value!!.id.toString())?.value?.originalTitle)
+        assertEquals(movies.value!!.originalLanguage, viewModel?.getMovieDetail(movies.value!!.id.toString())?.value?.originalLanguage)
+        assertEquals(movies.value!!.title, viewModel?.getMovieDetail(movies.value!!.id.toString())?.value?.title)
+        assertEquals(movies.value!!.backdropPath, viewModel?.getMovieDetail(movies.value!!.id.toString())?.value?.backdropPath)
+        assertEquals(movies.value!!.voteAverage, viewModel?.getMovieDetail(movies.value!!.id.toString())?.value?.voteAverage)
+        assertEquals(movies.value!!.releaseDate, viewModel?.getMovieDetail(movies.value!!.id.toString())?.value?.releaseDate)
     }
 
     @Test
     fun getTvDetail() {
-        viewModel.itemId = movieEntity.id.toString()
-        val tvDetail = viewModel.getTvDetail()
-        assertNotNull(tvDetail)
-        assertEquals(tvEntity.id, tvDetail.id)
-        assertEquals(tvEntity.title, tvDetail.title)
-        assertEquals(tvEntity.date, tvDetail.date)
-        assertEquals(tvEntity.score, tvDetail.score)
-        assertEquals(tvEntity.overview, tvDetail.overview)
+        val tvShow = MutableLiveData<ItemListEntity>()
+        tvShow.value = FakeData.getDummyMovies()[0]
+        Mockito.`when`(data.getTvShowDetail(tvShow.value!!.id.toString())).thenReturn(tvShow)
+        val observer = Mockito.mock(Observer::class.java)
+        viewModel?.getTvDetail(tvShow.value!!.id.toString())?.observeForever(observer as Observer<ItemListEntity>)
+        Mockito.verify(data).getTvShowDetail(tvShow.value!!.id.toString())
+        assertEquals(tvShow.value!!.posterPath, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.posterPath)
+        assertEquals(tvShow.value!!.overview, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.overview)
+        assertEquals(tvShow.value!!.id, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.id)
+        assertEquals(tvShow.value!!.name, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.name)
+        assertEquals(tvShow.value!!.originalLanguage, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.originalLanguage)
+        assertEquals(tvShow.value!!.title, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.title)
+        assertEquals(tvShow.value!!.backdropPath, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.backdropPath)
+        assertEquals(tvShow.value!!.voteAverage, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.voteAverage)
+        assertEquals(tvShow.value!!.firstAirDate, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.firstAirDate)
     }
 
     @Test
     fun getItems() {
-        val movies = viewModel.dataMovies
-        val tv = viewModel.dataTv
+        val movies = viewModel?.dataMovies
+        val tv = viewModel?.dataTv
         assertNotNull(movies)
         assertNotNull(tv)
-        assertEquals(10, movies.size)
-        assertEquals(10, tv.size)
+        assertEquals(10, movies?.size)
+        assertEquals(10, tv?.size)
     }
 }

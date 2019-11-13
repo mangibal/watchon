@@ -28,8 +28,8 @@ class TvFragmentTest {
 
     @Test
     fun loadTvItems() {
-        onView(withId(R.id.rv_tv)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_tv)).check(object : RecyclerViewItemCountAssertion(10) {
+        onView(withId(R.id.rv_tv_show)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_tv_show)).check(object : RecyclerViewItemCountAssertion(10) {
 
         })
     }

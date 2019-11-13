@@ -43,6 +43,11 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    buildTypes.each {
+        it.buildConfigField 'String', 'API_KEY', '"226e2beb823f85b7566b29fe9fe36760"'
+        it.buildConfigField 'String', 'BASE_URL', '"https://api.themoviedb.org/3/"'
+        it.buildConfigField 'String', 'BASE_URL_IMAGE', '"https://image.tmdb.org/t/p/w600_and_h900_bestv2"'
+    }
     useLibrary 'android.test.runner'
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
@@ -88,6 +93,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJava2"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroid"
     implementation "com.google.code.gson:gson:$rootProject.gson"
+    implementation("com.squareup.okhttp3:logging-interceptor:4.0.1")
 
     //Image Loader
     implementation 'com.squareup.picasso:picasso:2.71828'

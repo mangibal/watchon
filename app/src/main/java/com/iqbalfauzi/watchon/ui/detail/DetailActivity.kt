@@ -4,24 +4,30 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.iqbalfauzi.watchon.BuildConfig
 import com.iqbalfauzi.watchon.R
-import com.iqbalfauzi.watchon.data.ItemEntity
+import com.iqbalfauzi.watchon.data.repository.ItemListEntity
 import com.iqbalfauzi.watchon.databinding.ActivityDetailBinding
+import com.iqbalfauzi.watchon.utils.Utils
+import com.iqbalfauzi.watchon.utils.ViewModelFactory
+import com.iqbalfauzi.watchon.utils.hide
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: DetailViewModel
     private lateinit var dataBinding: ActivityDetailBinding
-    private var data = ItemEntity()
     private var type = ""
     private var itemId = ""
+    private val viewModel by lazy {
+        val viewModelFactory = ViewModelFactory.getInstance()
+        ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
         getIntentExtra()
         setToolbar()
@@ -30,20 +36,35 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setDetailData() {
         viewModel.itemId = itemId
-        data = if (type == "movie") {
-            viewModel.getMovieDetail()
+        if (type == "movie") {
+            viewModel.getMovieDetail(itemId).observe(this, Observer {
+                showData(it)
+            })
         } else {
-            viewModel.getTvDetail()
+            viewModel.getTvDetail(itemId).observe(this, Observer {
+                showData(it)
+            })
         }
+    }
+
+    private fun showData(data: ItemListEntity) {
+        val url = BuildConfig.BASE_URL_IMAGE
         with(dataBinding) {
-            tvTitle.text = data.title
-            tvDate.text = data.date
-            tvScore.text = data.score.toString()
+            pbLoading.hide()
+            supportActionBar?.apply {
+                title = data.title ?: data.name
+            }
+//            tvTitle.text = data.title?:data.name
+            tvDate.text = if (type == "movie") {
+                data.releaseDate ?: "-"
+            } else data.firstAirDate ?: "-"
+            tvScore.text = data.voteAverage.toString()
             tvOverview.text = data.overview
             Glide.with(root)
-                    .load(data.poster)
-                    .apply(RequestOptions().centerCrop())
-                    .into(ivPoster)
+                .load(url + data.backdropPath)
+                .apply(RequestOptions().centerCrop())
+                .apply(RequestOptions().placeholder(Utils.createCircularProgressDrawable(this@DetailActivity)))
+                .into(ivPoster)
         }
     }
 
@@ -55,9 +76,9 @@ class DetailActivity : AppCompatActivity() {
     private fun setToolbar() {
         with(dataBinding) {
             setSupportActionBar(toolbar)
-            supportActionBar!!.title = ""
             toolbar.apply {
-                navigationIcon = ContextCompat.getDrawable(this@DetailActivity, R.drawable.ic_arrow_back_white)
+                navigationIcon =
+                    ContextCompat.getDrawable(this@DetailActivity, R.drawable.ic_arrow_back_white)
                 setNavigationOnClickListener { onBackPressed() }
             }
         }

@@ -14,9 +14,9 @@ import com.iqbalfauzi.watchon.ui.listener.OnItemClickListener
 /**
  * Created by Iqbal Fauzi on 16:59 16/10/19
  */
-class MovieAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<MovieAdapter.Item>() {
+class TvAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<TvAdapter.Item>() {
 
-    private var list: List<ItemListEntity> = emptyList()
+    private var list : List<ItemListEntity> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Item {
         val inflater = LayoutInflater.from(parent.context)
@@ -28,8 +28,8 @@ class MovieAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<Mov
         return list.size
     }
 
-    fun setData(movies: List<ItemListEntity>) {
-        list = movies
+    fun setData(tvShows: List<ItemListEntity>) {
+        list = tvShows
         notifyDataSetChanged()
     }
 
@@ -46,14 +46,14 @@ class MovieAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<Mov
         fun bind(item: ItemListEntity) {
             val url = BuildConfig.BASE_URL_IMAGE
             with(binding) {
-                tvTitle.text = item.originalTitle
-                tvDate.text = item.releaseDate
+                tvTitle.text = item.name
+                tvDate.text = item.firstAirDate
                 tvOverview.text = item.overview
                 Glide.with(binding.root)
-                        .load(url + item.posterPath)
-                        .apply(RequestOptions().centerCrop())
-                        .apply(RequestOptions().transform(RoundedCorners(54)))
-                        .into(ivPoster)
+                    .load(url + item.posterPath)
+                    .apply(RequestOptions().centerCrop())
+                    .apply(RequestOptions().transform(RoundedCorners(54)))
+                    .into(ivPoster)
             }
         }
 
