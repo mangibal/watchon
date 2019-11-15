@@ -92,23 +92,4 @@ class DetailViewModelTest {
         assertEquals(fakeTvShows.results[0].vote_average, viewModel?.getMovieDetail(movieId.toString())?.value?.vote_average)
         assertEquals(fakeTvShows.results[0].vote_count, viewModel?.getMovieDetail(movieId.toString())?.value?.vote_count)
     }
-
-     /*@Test
-     fun getTvDetail() {
-         val tvShow = MutableLiveData<ItemListEntity>()
-         tvShow.value = FakeData.getDummyMovies()[0]
-         Mockito.`when`(data.getTvShowDetail(tvShow.value!!.id.toString())).thenReturn(tvShow)
-         val observer = Mockito.mock(Observer::class.java)
-         viewModel?.getTvDetail(tvShow.value!!.id.toString())?.observeForever(observer as Observer<ItemListEntity>)
-         Mockito.verify(data).getTvShowDetail(tvShow.value!!.id.toString())
-         assertEquals(tvShow.value!!.posterPath, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.posterPath)
-         assertEquals(tvShow.value!!.overview, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.overview)
-         assertEquals(tvShow.value!!.id, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.id)
-         assertEquals(tvShow.value!!.name, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.name)
-         assertEquals(tvShow.value!!.originalLanguage, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.originalLanguage)
-         assertEquals(tvShow.value!!.title, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.title)
-         assertEquals(tvShow.value!!.backdropPath, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.backdropPath)
-         assertEquals(tvShow.value!!.voteAverage, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.voteAverage)
-         assertEquals(tvShow.value!!.firstAirDate, viewModel?.getTvDetail(tvShow.value!!.id.toString())?.value?.firstAirDate)
-     }*/
 }
