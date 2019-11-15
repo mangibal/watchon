@@ -30,8 +30,6 @@ class MainActivity : AppCompatActivity() {
         with(databinding) {
             setFragment(MovieFragment())
             navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-//            val navController = findNavController(R.id.nav_host_fragment)
-//            navView.setupWithNavController(navController)
         }
     }
 
