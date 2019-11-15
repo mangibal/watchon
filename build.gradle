@@ -59,4 +59,6 @@ ext {
     pagingVersion = '2.1.0'
     glideVersion = '4.9.0'
     idleResourceVersion = '3.2.0'
+
+    fragmentTestRuleVersion = '2.0.1'
 }

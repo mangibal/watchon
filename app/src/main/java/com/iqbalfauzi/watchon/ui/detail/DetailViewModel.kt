@@ -2,9 +2,10 @@ package com.iqbalfauzi.watchon.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.iqbalfauzi.watchon.data.ItemEntity
+import com.iqbalfauzi.watchon.data.model.ItemEntity
 import com.iqbalfauzi.watchon.data.repository.DataRepository
-import com.iqbalfauzi.watchon.data.repository.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.ResultEntity
 import com.iqbalfauzi.watchon.utils.DataDummy
 
 /**
@@ -17,8 +18,8 @@ class DetailViewModel(private val dataRepository: DataRepository) : ViewModel() 
     private var item = ItemEntity()
     var itemId = ""
 
-    fun getMovieDetail(movieId: String): LiveData<ItemListEntity> = dataRepository.getMovieDetail(movieId)
+    fun getMovieDetail(movieId: String): LiveData<ResultEntity> = dataRepository.getMovieDetail(movieId)
 
-    fun getTvDetail(tvId: String): LiveData<ItemListEntity> = dataRepository.getTvShowDetail(tvId)
+    fun getTvDetail(tvId: String): LiveData<ResultEntity> = dataRepository.getTvShowDetail(tvId)
 
 }

@@ -1,4 +1,4 @@
-package com.iqbalfauzi.watchon.data.repository
+package com.iqbalfauzi.watchon.data.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

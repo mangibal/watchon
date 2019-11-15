@@ -12,9 +12,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iqbalfauzi.watchon.R
-import com.iqbalfauzi.watchon.data.repository.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.ResultEntity
 import com.iqbalfauzi.watchon.databinding.FragmentTvBinding
-import com.iqbalfauzi.watchon.ui.TvAdapter
 import com.iqbalfauzi.watchon.ui.detail.DetailActivity
 import com.iqbalfauzi.watchon.ui.listener.OnItemClickListener
 import com.iqbalfauzi.watchon.utils.ViewModelFactory
@@ -24,7 +23,7 @@ class TvFragment : Fragment() {
 
     private lateinit var databinding: FragmentTvBinding
     private lateinit var tvAdapter: TvAdapter
-    private var tvShows = listOf<ItemListEntity>()
+    private var tvShows = listOf<ResultEntity>()
 
     private val tvViewModel by lazy {
         val viewModelFactory = activity?.application?.let { ViewModelFactory.getInstance() }
@@ -39,28 +38,34 @@ class TvFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (activity != null) {
 
-            with(databinding) {
-                tvAdapter = TvAdapter(object : OnItemClickListener {
-                    override fun onItemClick(itemView: View, position: Int) {
-                        val data = Intent(context, DetailActivity::class.java)
-                        data.putExtra(DetailActivity.TYPE, "tv")
-                        data.putExtra(DetailActivity.ITEM_ID, tvShows[position].id.toString())
-                        startActivity(data)
-                    }
-                })
-                tvViewModel.tvShows.observe(viewLifecycleOwner, Observer {
-                    pbLoading.hide()
-                    tvShows = it
-                    tvAdapter.setData(tvShows)
-                })
-                rvTvShow.apply {
-                    layoutManager = LinearLayoutManager(context)
-                    setHasFixedSize(true)
-                    adapter = tvAdapter
-                    itemAnimator = DefaultItemAnimator()
+        setTvAdapter()
+        getViewModelData()
+    }
+
+    private fun getViewModelData() {
+        tvViewModel.getTvShows().observe(viewLifecycleOwner, Observer {
+            databinding.pbLoading.hide()
+            tvShows = it
+            tvAdapter.setData(tvShows)
+        })
+    }
+
+    private fun setTvAdapter() {
+        with(databinding) {
+            tvAdapter = TvAdapter(object : OnItemClickListener {
+                override fun onItemClick(itemView: View, position: Int) {
+                    val data = Intent(context, DetailActivity::class.java)
+                    data.putExtra(DetailActivity.TYPE, "tv")
+                    data.putExtra(DetailActivity.ITEM_ID, tvShows[position].id.toString())
+                    startActivity(data)
                 }
+            })
+            rvTvShow.apply {
+                layoutManager = LinearLayoutManager(context)
+                setHasFixedSize(true)
+                adapter = tvAdapter
+                itemAnimator = DefaultItemAnimator()
             }
         }
     }

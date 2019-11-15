@@ -1,8 +1,7 @@
 package com.iqbalfauzi.watchon
 
-import com.iqbalfauzi.watchon.R
-import com.iqbalfauzi.watchon.data.ItemEntity
-import com.iqbalfauzi.watchon.data.repository.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.ItemEntity
+import com.iqbalfauzi.watchon.data.model.ItemListEntity
 
 /**
  * Created by Iqbal Fauzi on 15:38 16/10/19
@@ -13,8 +12,8 @@ object FakeData {
             //1
             ItemListEntity(
                 "/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
-                "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure",
-                "2019-10-04",
+                "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure.",
+                "2019-10-02",
                 475557,
                 "Joker",
                 "en",

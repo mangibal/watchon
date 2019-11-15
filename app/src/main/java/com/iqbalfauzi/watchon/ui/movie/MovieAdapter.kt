@@ -1,4 +1,4 @@
-package com.iqbalfauzi.watchon.ui
+package com.iqbalfauzi.watchon.ui.movie
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.iqbalfauzi.watchon.BuildConfig
-import com.iqbalfauzi.watchon.data.repository.ItemListEntity
+import com.iqbalfauzi.watchon.R
+import com.iqbalfauzi.watchon.data.model.ResultEntity
 import com.iqbalfauzi.watchon.databinding.ItemRvMovieBinding
 import com.iqbalfauzi.watchon.ui.listener.OnItemClickListener
 
@@ -16,7 +17,7 @@ import com.iqbalfauzi.watchon.ui.listener.OnItemClickListener
  */
 class MovieAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<MovieAdapter.Item>() {
 
-    private var list: List<ItemListEntity> = emptyList()
+    private var list: List<ResultEntity> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Item {
         val inflater = LayoutInflater.from(parent.context)
@@ -28,14 +29,15 @@ class MovieAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<Mov
         return list.size
     }
 
-    fun setData(movies: List<ItemListEntity>) {
+    fun setData(movies: List<ResultEntity>) {
         list = movies
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: Item, position: Int) = holder.bind(list[position])
 
-    inner class Item(private val binding: ItemRvMovieBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class Item(private val binding: ItemRvMovieBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.root.setOnClickListener {
@@ -43,17 +45,17 @@ class MovieAdapter(val listener: OnItemClickListener) : RecyclerView.Adapter<Mov
             }
         }
 
-        fun bind(item: ItemListEntity) {
-            val url = BuildConfig.BASE_URL_IMAGE
+        fun bind(item: ResultEntity) {
             with(binding) {
-                tvTitle.text = item.originalTitle
-                tvDate.text = item.releaseDate
+                tvTitle.text = item.original_title
+                tvDate.text = item.release_date
                 tvOverview.text = item.overview
                 Glide.with(binding.root)
-                        .load(url + item.posterPath)
-                        .apply(RequestOptions().centerCrop())
-                        .apply(RequestOptions().transform(RoundedCorners(54)))
-                        .into(ivPoster)
+                    .load("${BuildConfig.BASE_URL_IMAGE}${item.poster_path}")
+                    .apply(RequestOptions().centerCrop())
+                    .apply(RequestOptions().transform(RoundedCorners(54)))
+                    .apply(RequestOptions().error(R.drawable.ic_broken_image))
+                    .into(ivPoster)
             }
         }
 

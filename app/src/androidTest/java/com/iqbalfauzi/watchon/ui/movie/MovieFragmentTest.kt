@@ -26,19 +26,18 @@ class MovieFragmentTest {
 
     @Before
     fun setUp() {
-//        IdlingRegistry.getInstance().register(EspressoIdlingResourceJava.getEspressoIdlingResource())
+        IdlingRegistry.getInstance().register(EspressoIdlingResourceJava.getEspressoIdlingResource())
         activityRule.activity.setFragment(movieFragment)
     }
 
     @After
     fun tearDown() {
-//        IdlingRegistry.getInstance().unregister(EspressoIdlingResourceJava.getEspressoIdlingResource())
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResourceJava.getEspressoIdlingResource())
     }
 
     @Test
     fun loadMovies() {
-        onView(withId(R.id.rv_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_movie)).check(object : RecyclerViewItemCountAssertion(10) {
-        })
+        onView(withId(R.id.rv_movie)).check(matches((isDisplayed())))
+        onView(withId(R.id.rv_movie)).check(RecyclerViewItemCountAssertion(20))
     }
 }

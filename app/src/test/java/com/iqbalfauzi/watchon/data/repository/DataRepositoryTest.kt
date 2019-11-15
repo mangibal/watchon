@@ -1,116 +1,92 @@
 package com.iqbalfauzi.watchon.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.google.gson.Gson
 import com.iqbalfauzi.watchon.FakeData
+import com.iqbalfauzi.watchon.FakeJson
 import com.iqbalfauzi.watchon.LiveDataTest
+import com.iqbalfauzi.watchon.data.model.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.DataResponse
+import com.iqbalfauzi.watchon.data.model.ResultEntity
 import com.iqbalfauzi.watchon.data.repository.local.LocalRepository
-import com.iqbalfauzi.watchon.data.repository.remote.RemoteRepositoryJava
+import com.iqbalfauzi.watchon.data.repository.remote.RemoteRepository
+import com.nhaarman.mockitokotlin2.*
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.*
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 
 /**
  * Created by Iqbal Fauzi on 13:53 10/11/19
  */
 class DataRepositoryTest {
 
-    @Rule
-    @JvmField
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val localRepository = mock(LocalRepository::class.java)
-    private val remoteRepository = mock(RemoteRepositoryJava::class.java)
-    private val dataRepositoryTest = FakeDataRepository(localRepository, remoteRepository)
+    @Mock
+    private lateinit var localRepository: LocalRepository
+    @Mock
+    private lateinit var remoteRepository : RemoteRepository
+    private lateinit var dataRepositoryTest : FakeDataRepository
 
-    private val movieList = FakeData.getDummyMovies()
-    private val movieId = movieList[0].id.toString()
-    private lateinit var movie : ItemListEntity
+    private val fakeMovieResponse = Gson().fromJson(FakeJson.jsonMovies, DataResponse::class.java)
+    private val fakeTvShowResponse = Gson().fromJson(FakeJson.jsonTvShow, DataResponse::class.java)
 
-    private val tvShowList = FakeData.getDummyTvShows()
-    private val tvShowId = tvShowList[0].id.toString()
-    private lateinit var tvShow : ItemListEntity
+    private lateinit var movie : ResultEntity
+    private lateinit var tvShow : ResultEntity
 
     @Before
     fun setUp() {
-        movie = ItemListEntity(
-            "/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
-            "During the 1980s, a failed stand-up comedian is driven insane and turns to a life of crime and chaos in Gotham City while becoming an infamous psychopathic crime figure",
-            "2019-10-04",
-            475557,
-            "Joker",
-            "en",
-            "Joker",
-            "/n6bUvigpRFqSwmPp1m2YADdbRBc.jpg",
-            8.5,
-            null,
-            null
-        )
-
-        tvShow = ItemListEntity(
-            "/KoYWXbnYuS3b0GyQPkbuexlVK9.jpg",
-            "When they were boys, Sam and Dean Winchester lost their mother to a mysterious and demonic supernatural force. Subsequently, their father raised them to be soldiers. He taught them about the paranormal evil that lives in the dark corners and on the back roads of America ... and he taught them how to kill it. Now, the Winchester brothers crisscross the country in their '67 Chevy Impala, battling every kind of supernatural threat they encounter along the way.",
-            null,
-            1622,
-            null,
-            "en",
-            "Supernatural",
-            "/o9OKe3M06QMLOzTl3l6GStYtnE9.jpg",
-            7.4,
-            "Supernatural",
-            "2005-09-1"
-        )
-    }
-
-    @After
-    fun tearDown() {
-
+        MockitoAnnotations.initMocks(this)
+        dataRepositoryTest = FakeDataRepository(localRepository, remoteRepository)
     }
 
     @Test
     fun getMovies() {
-        doAnswer {
-            val callback = it.arguments[0] as RemoteRepositoryJava.GetMovieCallback
-            callback.onSuccess(movieList)
+        doAnswer {  invocation ->
+            (invocation.arguments[0] as RemoteRepository.GetMovieCallback).onSuccess(fakeMovieResponse.results)
             null
-        }.`when`(remoteRepository).getMovies(any(RemoteRepositoryJava.GetMovieCallback::class.java))
+        }.whenever(remoteRepository).getMovies(any())
 
         val result = LiveDataTest.getValue(dataRepositoryTest.getMovies())
-        verify(remoteRepository, times(1)).getMovies(any(RemoteRepositoryJava.GetMovieCallback::class.java))
+        verify(remoteRepository, times(1)).getMovies(any())
 
-        assertEquals(movieList.size, result.size)
-    }
-
-    @Test
-    fun getMovieDetail() {
-        doAnswer {
-            val callback = it.arguments[0] as RemoteRepositoryJava.GetMovieDetailCallback
-            callback.onSuccess(movieList[0])
-            null
-        }.`when`(remoteRepository).getMovieDetail(eq(movieId), any(RemoteRepositoryJava.GetMovieDetailCallback::class.java))
+        assertNotNull(result)
+        assertEquals(fakeMovieResponse.results.size, result.size)
     }
 
     @Test
     fun getTvShows() {
-        doAnswer {
-            val callback = it.arguments[0] as RemoteRepositoryJava.GetTvShowsCallback
-            callback.onSuccess(tvShowList)
-        }.`when`(remoteRepository).getTvShows(any(RemoteRepositoryJava.GetTvShowsCallback::class.java))
+        doAnswer { invocation ->
+            (invocation.arguments[0] as RemoteRepository.GetTvShowsCallback).onSuccess(fakeTvShowResponse.results)
+            null
+        }.whenever(remoteRepository).getTvShows(any())
 
         val result = LiveDataTest.getValue(dataRepositoryTest.getTvShows())
-        verify(remoteRepository, times(1)).getTvShows(any(RemoteRepositoryJava.GetTvShowsCallback::class.java))
+        verify(remoteRepository, times(1)).getTvShows(any())
 
-        assertEquals(movieList.size, result.size)
+        assertNotNull(result)
+        assertEquals(fakeTvShowResponse.results.size, result.size)
+    }
+
+    @Test
+    fun getMovieDetail() {
+        doAnswer { invocation ->
+            (invocation.arguments[0] as RemoteRepository.GetMovieDetailCallback).onSuccess(fakeMovieResponse.results[0])
+            null
+        }.`when`(remoteRepository).getMovieDetail(eq(fakeMovieResponse.results[0].id.toString()), any())
     }
 
     @Test
     fun getTvShowDetail() {
-        doAnswer {
-            val callback = it.arguments[0] as RemoteRepositoryJava.GetTvShowDetailCallback
-            callback.onSuccess(tvShowList[0])
+        doAnswer { invocation ->
+            (invocation.arguments[0] as RemoteRepository.GetTvShowDetailCallback).onSuccess(fakeTvShowResponse.results[0])
             null
-        }.`when`(remoteRepository).getTvShowDetail(eq(tvShowId), any(RemoteRepositoryJava.GetTvShowDetailCallback::class.java))
+        }.`when`(remoteRepository).getMovieDetail(eq(fakeTvShowResponse.results[0].id.toString()), any())
     }
 }

@@ -1,8 +1,8 @@
 package com.iqbalfauzi.watchon.data.repository.remote
 
 import android.os.Handler
-import com.iqbalfauzi.watchon.data.repository.ItemListEntity
-import com.iqbalfauzi.watchon.data.repository.ItemResponse
+import com.iqbalfauzi.watchon.data.model.DataResponse
+import com.iqbalfauzi.watchon.data.model.ResultEntity
 import com.iqbalfauzi.watchon.helper.ApiClient
 import com.iqbalfauzi.watchon.utils.EspressoIdlingResource
 import retrofit2.Call
@@ -20,12 +20,12 @@ open class RemoteRepository(private val apiClient: ApiClient) {
     fun getMovies(getMovieCallback: GetMovieCallback) {
         EspressoIdlingResource.increment()
         responseHandler.postDelayed({
-            request.getMovies().enqueue(object : Callback<ItemResponse> {
-                override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
+            request.getMovies().enqueue(object : Callback<DataResponse> {
+                override fun onFailure(call: Call<DataResponse>, t: Throwable) {
                     Timber.d("Error $t")
                 }
 
-                override fun onResponse(call: Call<ItemResponse>, response: Response<ItemResponse>) {
+                override fun onResponse(call: Call<DataResponse>, response: Response<DataResponse>) {
                     getMovieCallback.onSuccess(response.body()?.results)
                 }
             })
@@ -36,12 +36,12 @@ open class RemoteRepository(private val apiClient: ApiClient) {
         EspressoIdlingResource.increment()
         val responseHandler = Handler()
         responseHandler.postDelayed({
-            request.getMovieDetails(movieId).enqueue(object : Callback<ItemListEntity> {
-                override fun onFailure(call: Call<ItemListEntity>, t: Throwable) {
+            request.getMovieDetails(movieId).enqueue(object : Callback<ResultEntity> {
+                override fun onFailure(call: Call<ResultEntity>, t: Throwable) {
                     Timber.d("Error $t")
                 }
 
-                override fun onResponse(call: Call<ItemListEntity>, response: Response<ItemListEntity>) {
+                override fun onResponse(call: Call<ResultEntity>, response: Response<ResultEntity>) {
                     response.body()?.let { getMovieDetailCallback.onSuccess(it) }
                 }
 
@@ -52,12 +52,12 @@ open class RemoteRepository(private val apiClient: ApiClient) {
     fun getTvShowDetail(tvId: String, getTvShowDetailCallback: GetTvShowDetailCallback) {
         EspressoIdlingResource.increment()
         responseHandler.postDelayed({
-            request.getTvShowDetail(tvId).enqueue(object : Callback<ItemListEntity> {
-                override fun onFailure(call: Call<ItemListEntity>, t: Throwable) {
+            request.getTvShowDetail(tvId).enqueue(object : Callback<ResultEntity> {
+                override fun onFailure(call: Call<ResultEntity>, t: Throwable) {
                     Timber.d("Error $t")
                 }
 
-                override fun onResponse(call: Call<ItemListEntity>, response: Response<ItemListEntity>) {
+                override fun onResponse(call: Call<ResultEntity>, response: Response<ResultEntity>) {
                     response.body()?.let { getTvShowDetailCallback.onSuccess(it) }
                 }
 
@@ -68,12 +68,12 @@ open class RemoteRepository(private val apiClient: ApiClient) {
     fun getTvShows(getTvShowsCallback: GetTvShowsCallback) {
         EspressoIdlingResource.increment()
         responseHandler.postDelayed({
-            request.getTvShows().enqueue(object : Callback<ItemResponse> {
-                override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
+            request.getTvShows().enqueue(object : Callback<DataResponse> {
+                override fun onFailure(call: Call<DataResponse>, t: Throwable) {
                     Timber.d("Error $t")
                 }
 
-                override fun onResponse(call: Call<ItemResponse>, response: Response<ItemResponse>) {
+                override fun onResponse(call: Call<DataResponse>, response: Response<DataResponse>) {
                     getTvShowsCallback.onSuccess(response.body()?.results)
                 }
             })
@@ -81,22 +81,22 @@ open class RemoteRepository(private val apiClient: ApiClient) {
     }
 
     interface GetMovieCallback {
-        fun onSuccess(movieResponse: List<ItemListEntity>?)
+        fun onSuccess(movieResponse: List<ResultEntity>?)
         fun onError()
     }
 
     interface GetMovieDetailCallback {
-        fun onSuccess(movieResponse: ItemListEntity)
+        fun onSuccess(movieResponse: ResultEntity)
         fun onError()
     }
 
     interface GetTvShowsCallback {
-        fun onSuccess(tvShowsResponse: List<ItemListEntity>?)
+        fun onSuccess(tvShowsResponse: List<ResultEntity>?)
         fun onError()
     }
 
     interface GetTvShowDetailCallback {
-        fun onSuccess(tvShowsResponse: ItemListEntity)
+        fun onSuccess(tvShowsResponse: ResultEntity)
         fun onError()
     }
 

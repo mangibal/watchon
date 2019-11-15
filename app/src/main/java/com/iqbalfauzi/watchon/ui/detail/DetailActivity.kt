@@ -10,7 +10,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.iqbalfauzi.watchon.BuildConfig
 import com.iqbalfauzi.watchon.R
-import com.iqbalfauzi.watchon.data.repository.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.ResultEntity
 import com.iqbalfauzi.watchon.databinding.ActivityDetailBinding
 import com.iqbalfauzi.watchon.utils.Utils
 import com.iqbalfauzi.watchon.utils.ViewModelFactory
@@ -29,12 +30,13 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
+
         getIntentExtra()
         setToolbar()
-        setDetailData()
+        setContent()
     }
 
-    private fun setDetailData() {
+    private fun setContent() {
         viewModel.itemId = itemId
         if (type == "movie") {
             viewModel.getMovieDetail(itemId).observe(this, Observer {
@@ -47,20 +49,21 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun showData(data: ItemListEntity) {
+    private fun showData(data: ResultEntity) {
         val url = BuildConfig.BASE_URL_IMAGE
         with(dataBinding) {
             pbLoading.hide()
             tvTitleDetail.text = data.title?:data.name
             tvDateDetail.text = if (type == "movie") {
-                data.releaseDate ?: "-"
-            } else data.firstAirDate ?: "-"
-            tvScore.text = data.voteAverage.toString()
+                data.release_date ?: "-"
+            } else data.first_air_date ?: "-"
+            tvScore.text = data.vote_average.toString()
             tvOverviewDetail.text = data.overview
             Glide.with(root)
-                    .load(url + data.backdropPath)
+                    .load(url + data.backdrop_path)
                     .apply(RequestOptions().centerCrop())
                     .apply(RequestOptions().placeholder(Utils.createCircularProgressDrawable(this@DetailActivity)))
+                    .apply(RequestOptions().error(R.drawable.ic_broken_image))
                     .into(ivPoster)
         }
     }
@@ -74,8 +77,8 @@ class DetailActivity : AppCompatActivity() {
         with(dataBinding) {
             setSupportActionBar(toolbar)
             toolbar.apply {
-                navigationIcon =
-                        ContextCompat.getDrawable(this@DetailActivity, R.drawable.ic_arrow_back_white)
+                title = ""
+                navigationIcon = ContextCompat.getDrawable(this@DetailActivity, R.drawable.ic_arrow_back_white)
                 setNavigationOnClickListener { onBackPressed() }
             }
         }

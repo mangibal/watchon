@@ -1,8 +1,8 @@
 package com.iqbalfauzi.watchon.utils
 
 import com.iqbalfauzi.watchon.R
-import com.iqbalfauzi.watchon.data.ItemEntity
-import com.iqbalfauzi.watchon.data.repository.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.ItemEntity
+import com.iqbalfauzi.watchon.data.model.ItemListEntity
 
 /**
  * Created by Iqbal Fauzi on 15:38 16/10/19

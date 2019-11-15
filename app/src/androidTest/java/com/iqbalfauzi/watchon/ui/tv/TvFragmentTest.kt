@@ -1,13 +1,16 @@
 package com.iqbalfauzi.watchon.ui.tv
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import com.iqbalfauzi.watchon.R
 import com.iqbalfauzi.watchon.testing.SingleFragmentActivity
+import com.iqbalfauzi.watchon.utils.EspressoIdlingResourceJava
 import com.iqbalfauzi.watchon.utils.RecyclerViewItemCountAssertion
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,15 +26,19 @@ class TvFragmentTest {
 
     @Before
     fun setUp() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResourceJava.getEspressoIdlingResource())
         activityRule.activity.setFragment(tvFragment)
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResourceJava.getEspressoIdlingResource())
     }
 
     @Test
     fun loadTvItems() {
         onView(withId(R.id.rv_tv_show)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_tv_show)).check(object : RecyclerViewItemCountAssertion(10) {
-
-        })
+        onView(withId(R.id.rv_tv_show)).check(RecyclerViewItemCountAssertion(20))
     }
 
 }

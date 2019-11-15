@@ -2,8 +2,8 @@ package com.iqbalfauzi.watchon.data.repository.remote;
 
 import android.os.Handler;
 
-import com.iqbalfauzi.watchon.data.repository.ItemListEntity;
-import com.iqbalfauzi.watchon.data.repository.ItemResponse;
+import com.iqbalfauzi.watchon.data.model.ResultEntity;
+import com.iqbalfauzi.watchon.data.model.DataResponse;
 import com.iqbalfauzi.watchon.helper.ApiClient;
 import com.iqbalfauzi.watchon.utils.EspressoIdlingResourceJava;
 
@@ -36,40 +36,40 @@ public class RemoteRepositoryJava {
     }
 
     public interface GetMovieCallback {
-        void onSuccess(List<ItemListEntity> movieList);
+        void onSuccess(List<ResultEntity> movieList);
 
         void onError();
     }
 
     public interface GetMovieDetailCallback {
-        void onSuccess(ItemListEntity movieDetail);
+        void onSuccess(ResultEntity movieDetail);
 
         void onError();
     }
 
     public interface GetTvShowsCallback {
-        void onSuccess(List<ItemListEntity> tvShowsList);
+        void onSuccess(List<ResultEntity> tvShowsList);
 
         void onError();
     }
 
     public interface GetTvShowDetailCallback {
-        void onSuccess(ItemListEntity tvShowDetail);
+        void onSuccess(ResultEntity tvShowDetail);
 
         void onError();
     }
 
     public void getMovies(GetMovieCallback getMovieCallback) {
         EspressoIdlingResourceJava.increment();
-        responseHandler.postDelayed(() -> apiClient.create().getMovies().enqueue(new Callback<ItemResponse>() {
+        responseHandler.postDelayed(() -> apiClient.create().getMovies().enqueue(new Callback<DataResponse>() {
             @Override
-            public void onResponse(Call<ItemResponse> call, Response<ItemResponse> response) {
+            public void onResponse(Call<DataResponse> call, Response<DataResponse> response) {
                 getMovieCallback.onSuccess(response.body().getResults());
                 EspressoIdlingResourceJava.decrement();
             }
 
             @Override
-            public void onFailure(Call<ItemResponse> call, Throwable t) {
+            public void onFailure(Call<DataResponse> call, Throwable t) {
                 Timber.d("Error " + t);
             }
         }), SERVICE_LATENCY);
@@ -77,15 +77,15 @@ public class RemoteRepositoryJava {
 
     public void getMovieDetail(String movieId, GetMovieDetailCallback getMovieDetailCallback) {
         EspressoIdlingResourceJava.increment();
-        responseHandler.postDelayed(() -> apiClient.create().getMovieDetails(movieId).enqueue(new Callback<ItemListEntity>() {
+        responseHandler.postDelayed(() -> apiClient.create().getMovieDetails(movieId).enqueue(new Callback<ResultEntity>() {
             @Override
-            public void onResponse(Call<ItemListEntity> call, Response<ItemListEntity> response) {
+            public void onResponse(Call<ResultEntity> call, Response<ResultEntity> response) {
                 getMovieDetailCallback.onSuccess(response.body());
                 EspressoIdlingResourceJava.decrement();
             }
 
             @Override
-            public void onFailure(Call<ItemListEntity> call, Throwable t) {
+            public void onFailure(Call<ResultEntity> call, Throwable t) {
                 Timber.d("Error " + t);
             }
         }), SERVICE_LATENCY);
@@ -93,15 +93,15 @@ public class RemoteRepositoryJava {
 
     public void getTvShows(GetTvShowsCallback getTvShowsCallback) {
         EspressoIdlingResourceJava.increment();
-        responseHandler.postDelayed(() -> apiClient.create().getTvShows().enqueue(new Callback<ItemResponse>() {
+        responseHandler.postDelayed(() -> apiClient.create().getTvShows().enqueue(new Callback<DataResponse>() {
             @Override
-            public void onResponse(Call<ItemResponse> call, Response<ItemResponse> response) {
+            public void onResponse(Call<DataResponse> call, Response<DataResponse> response) {
                 getTvShowsCallback.onSuccess(response.body().getResults());
                 EspressoIdlingResourceJava.decrement();
             }
 
             @Override
-            public void onFailure(Call<ItemResponse> call, Throwable t) {
+            public void onFailure(Call<DataResponse> call, Throwable t) {
                 Timber.d("Error " + t);
             }
         }), SERVICE_LATENCY);
@@ -109,15 +109,15 @@ public class RemoteRepositoryJava {
 
     public void getTvShowDetail(String tvId, GetTvShowDetailCallback getTvShowDetailCallback) {
         EspressoIdlingResourceJava.increment();
-        responseHandler.postDelayed(() -> apiClient.create().getTvShowDetail(tvId).enqueue(new Callback<ItemListEntity>() {
+        responseHandler.postDelayed(() -> apiClient.create().getTvShowDetail(tvId).enqueue(new Callback<ResultEntity>() {
             @Override
-            public void onResponse(Call<ItemListEntity> call, Response<ItemListEntity> response) {
+            public void onResponse(Call<ResultEntity> call, Response<ResultEntity> response) {
                 getTvShowDetailCallback.onSuccess(response.body());
                 EspressoIdlingResourceJava.decrement();
             }
 
             @Override
-            public void onFailure(Call<ItemListEntity> call, Throwable t) {
+            public void onFailure(Call<ResultEntity> call, Throwable t) {
                 Timber.d("Error " + t);
             }
         }), SERVICE_LATENCY);

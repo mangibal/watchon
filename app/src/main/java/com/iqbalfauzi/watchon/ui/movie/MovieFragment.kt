@@ -12,9 +12,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iqbalfauzi.watchon.R
-import com.iqbalfauzi.watchon.data.repository.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.ResultEntity
 import com.iqbalfauzi.watchon.databinding.FragmentMovieBinding
-import com.iqbalfauzi.watchon.ui.MovieAdapter
 import com.iqbalfauzi.watchon.ui.detail.DetailActivity
 import com.iqbalfauzi.watchon.ui.listener.OnItemClickListener
 import com.iqbalfauzi.watchon.utils.ViewModelFactory
@@ -25,7 +24,7 @@ class MovieFragment : Fragment() {
     private lateinit var dataBinding: FragmentMovieBinding
     private lateinit var movieAdapter: MovieAdapter
 
-    private var movies = listOf<ItemListEntity>()
+    private var movies = listOf<ResultEntity>()
     private val movieViewModel by lazy {
         val viewModelFactory = activity?.application?.let { ViewModelFactory.getInstance() }
         ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel::class.java)
@@ -38,28 +37,34 @@ class MovieFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (activity != null) {
-            with(dataBinding) {
-                movieAdapter = MovieAdapter(object : OnItemClickListener {
-                    override fun onItemClick(itemView: View, position: Int) {
-                        val data = Intent(context, DetailActivity::class.java)
-                        data.putExtra(DetailActivity.TYPE, "movie")
-                        data.putExtra(DetailActivity.ITEM_ID, movies[position].id.toString())
-                        startActivity(data)
-                    }
-                })
-                movieViewModel.movies.observe(viewLifecycleOwner, Observer {
-                    pbLoading.hide()
-                    movies = it
-                    movieAdapter.setData(movies)
-                })
 
-                rvMovie.apply {
-                    layoutManager = LinearLayoutManager(context)
-                    setHasFixedSize(true)
-                    adapter = movieAdapter
-                    itemAnimator = DefaultItemAnimator()
+        setMovieAdapter()
+        getViewModelData()
+    }
+
+    private fun getViewModelData() {
+        movieViewModel.getMovies().observe(viewLifecycleOwner, Observer {
+            dataBinding.pbLoading.hide()
+            movies = it
+            movieAdapter.setData(movies)
+        })
+    }
+
+    private fun setMovieAdapter() {
+        with(dataBinding) {
+            movieAdapter = MovieAdapter(object : OnItemClickListener {
+                override fun onItemClick(itemView: View, position: Int) {
+                    val data = Intent(context, DetailActivity::class.java)
+                    data.putExtra(DetailActivity.TYPE, "movie")
+                    data.putExtra(DetailActivity.ITEM_ID, movies[position].id.toString())
+                    startActivity(data)
                 }
+            })
+            rvMovie.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                setHasFixedSize(true)
+                adapter = movieAdapter
+                itemAnimator = DefaultItemAnimator()
             }
         }
     }
