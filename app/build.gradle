@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -40,12 +37,17 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    testOptions {
+    /*testOptions {
         unitTests.returnDefaultValues = true
+    }*/
+    buildTypes.each {
+        it.buildConfigField 'String', 'API_KEY', '"226e2beb823f85b7566b29fe9fe36760"'
+        it.buildConfigField 'String', 'BASE_URL', '"https://api.themoviedb.org/3/"'
+        it.buildConfigField 'String', 'BASE_URL_IMAGE', '"https://image.tmdb.org/t/p/w600_and_h900_bestv2"'
     }
-    useLibrary 'android.test.runner'
+    /*useLibrary 'android.test.runner'
     useLibrary 'android.test.base'
-    useLibrary 'android.test.mock'
+    useLibrary 'android.test.mock'*/
 }
 
 dependencies {
@@ -88,6 +90,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxJava2"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroid"
     implementation "com.google.code.gson:gson:$rootProject.gson"
+    implementation("com.squareup.okhttp3:logging-interceptor:4.0.1")
 
     //Image Loader
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -101,6 +104,8 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
     testImplementation "androidx.arch.core:core-testing:$archLifecycleVersion"
 
     // Dependencies for Android unit tests
@@ -115,6 +120,8 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$archLifecycleVersion"
+    androidTestImplementation "com.21buttons:fragment-test-rule:$fragmentTestRuleVersion"
+    debugImplementation "com.21buttons:fragment-test-rule-extras:$fragmentTestRuleVersion"
 
     // Dependencies for Idle Resource
     implementation "androidx.test.espresso:espresso-idling-resource:$idleResourceVersion"

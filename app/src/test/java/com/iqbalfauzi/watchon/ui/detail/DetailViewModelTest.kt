@@ -1,72 +1,95 @@
 package com.iqbalfauzi.watchon.ui.detail
 
-import com.iqbalfauzi.watchon.R
-import com.iqbalfauzi.watchon.data.ItemEntity
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.google.gson.Gson
+import com.iqbalfauzi.watchon.FakeData
+import com.iqbalfauzi.watchon.FakeJson
+import com.iqbalfauzi.watchon.data.model.DataResponse
+import com.iqbalfauzi.watchon.data.repository.DataRepository
+import com.iqbalfauzi.watchon.data.model.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.ResultEntity
+import com.nhaarman.mockitokotlin2.*
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
 
 /**
  * Created by Iqbal Fauzi on 14:38 24/10/19
  */
 class DetailViewModelTest {
 
-    private lateinit var viewModel: DetailViewModel
-    private var movieEntity = ItemEntity()
-    private var tvEntity = ItemEntity()
+    @get:Rule
+    var instanTaskExecutorRule = InstantTaskExecutorRule()
+
+    private var viewModel : DetailViewModel? = null
+    @Mock
+    private lateinit var dataRepository: DataRepository
 
     @Before
     fun setUp() {
-        viewModel = DetailViewModel()
-        movieEntity = ItemEntity(
-            1,
-            "A Star Is Born",
-            "2018-10-03",
-            75,
-            "Seasoned musician Jackson Maine discovers — and falls in love with — struggling artist Ally. She has just about given up on her dream to make it big as a singer — until Jack coaxes her into the spotlight. But even as Ally's career takes off, the personal side of their relationship is breaking down, as Jack fights an ongoing battle with his own internal demons.",
-            R.drawable.poster_a_start_is_born
-        )
-        tvEntity = ItemEntity(
-            1,
-            "Arrow",
-            "2012-10-10",
-            58,
-            "Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow.",
-            R.drawable.poster_arrow
-        )
+        MockitoAnnotations.initMocks(this)
+        viewModel = DetailViewModel(dataRepository)
     }
 
     @Test
     fun getMovieDetail() {
-        viewModel.itemId = movieEntity.id.toString()
-        val movieDetail = viewModel.getMovieDetail()
-        assertNotNull(movieDetail)
-        assertEquals(movieEntity.id, movieDetail.id)
-        assertEquals(movieEntity.title, movieDetail.title)
-        assertEquals(movieEntity.date, movieDetail.date)
-        assertEquals(movieEntity.score, movieDetail.score)
-        assertEquals(movieEntity.overview, movieDetail.overview)
+        val fakeMovies = Gson().fromJson(FakeJson.jsonMovies, DataResponse::class.java)
+        val fakeMovie = MutableLiveData<ResultEntity>()
+        fakeMovie.value = fakeMovies.results[0]
+        val movieId = fakeMovies.results[0].id
+
+        whenever(dataRepository.getMovieDetail(movieId.toString())).thenReturn(fakeMovie)
+
+        val observer = mock<Observer<ResultEntity>>()
+        viewModel?.getMovieDetail(movieId.toString())?.observeForever(observer)
+
+        verify(observer).onChanged(fakeMovie.value)
+        assertEquals(fakeMovies.results[0].id, viewModel?.getMovieDetail(movieId.toString())?.value?.id)
+        assertEquals(fakeMovies.results[0].adult, viewModel?.getMovieDetail(movieId.toString())?.value?.adult)
+        assertEquals(fakeMovies.results[0].backdrop_path, viewModel?.getMovieDetail(movieId.toString())?.value?.backdrop_path)
+        assertEquals(fakeMovies.results[0].original_language, viewModel?.getMovieDetail(movieId.toString())?.value?.original_language)
+        assertEquals(fakeMovies.results[0].original_title, viewModel?.getMovieDetail(movieId.toString())?.value?.original_title)
+        assertEquals(fakeMovies.results[0].overview, viewModel?.getMovieDetail(movieId.toString())?.value?.overview)
+        assertEquals(fakeMovies.results[0].popularity, viewModel?.getMovieDetail(movieId.toString())?.value?.popularity)
+        assertEquals(fakeMovies.results[0].genre_ids, viewModel?.getMovieDetail(movieId.toString())?.value?.genre_ids)
+        assertEquals(fakeMovies.results[0].poster_path, viewModel?.getMovieDetail(movieId.toString())?.value?.poster_path)
+        assertEquals(fakeMovies.results[0].release_date, viewModel?.getMovieDetail(movieId.toString())?.value?.release_date)
+        assertEquals(fakeMovies.results[0].title, viewModel?.getMovieDetail(movieId.toString())?.value?.title)
+        assertEquals(fakeMovies.results[0].vote_average, viewModel?.getMovieDetail(movieId.toString())?.value?.vote_average)
+        assertEquals(fakeMovies.results[0].vote_count, viewModel?.getMovieDetail(movieId.toString())?.value?.vote_count)
     }
 
     @Test
-    fun getTvDetail() {
-        viewModel.itemId = movieEntity.id.toString()
-        val tvDetail = viewModel.getTvDetail()
-        assertNotNull(tvDetail)
-        assertEquals(tvEntity.id, tvDetail.id)
-        assertEquals(tvEntity.title, tvDetail.title)
-        assertEquals(tvEntity.date, tvDetail.date)
-        assertEquals(tvEntity.score, tvDetail.score)
-        assertEquals(tvEntity.overview, tvDetail.overview)
-    }
+    fun getTvShowDetail() {
+        val fakeTvShows = Gson().fromJson(FakeJson.jsonTvShow, DataResponse::class.java)
+        val fakeTvShow = MutableLiveData<ResultEntity>()
+        fakeTvShow.value = fakeTvShows.results[0]
+        val movieId = fakeTvShows.results[0].id
 
-    @Test
-    fun getItems() {
-        val movies = viewModel.dataMovies
-        val tv = viewModel.dataTv
-        assertNotNull(movies)
-        assertNotNull(tv)
-        assertEquals(10, movies.size)
-        assertEquals(10, tv.size)
+        whenever(dataRepository.getMovieDetail(movieId.toString())).thenReturn(fakeTvShow)
+
+        val observer = mock<Observer<ResultEntity>>()
+        viewModel?.getMovieDetail(movieId.toString())?.observeForever(observer)
+
+        verify(observer).onChanged(fakeTvShow.value)
+        assertEquals(fakeTvShows.results[0].id, viewModel?.getMovieDetail(movieId.toString())?.value?.id)
+        assertEquals(fakeTvShows.results[0].adult, viewModel?.getMovieDetail(movieId.toString())?.value?.adult)
+        assertEquals(fakeTvShows.results[0].backdrop_path, viewModel?.getMovieDetail(movieId.toString())?.value?.backdrop_path)
+        assertEquals(fakeTvShows.results[0].original_language, viewModel?.getMovieDetail(movieId.toString())?.value?.original_language)
+        assertEquals(fakeTvShows.results[0].original_name, viewModel?.getMovieDetail(movieId.toString())?.value?.original_name)
+        assertEquals(fakeTvShows.results[0].overview, viewModel?.getMovieDetail(movieId.toString())?.value?.overview)
+        assertEquals(fakeTvShows.results[0].popularity, viewModel?.getMovieDetail(movieId.toString())?.value?.popularity)
+        assertEquals(fakeTvShows.results[0].genre_ids, viewModel?.getMovieDetail(movieId.toString())?.value?.genre_ids)
+        assertEquals(fakeTvShows.results[0].poster_path, viewModel?.getMovieDetail(movieId.toString())?.value?.poster_path)
+        assertEquals(fakeTvShows.results[0].first_air_date, viewModel?.getMovieDetail(movieId.toString())?.value?.first_air_date)
+        assertEquals(fakeTvShows.results[0].name, viewModel?.getMovieDetail(movieId.toString())?.value?.name)
+        assertEquals(fakeTvShows.results[0].vote_average, viewModel?.getMovieDetail(movieId.toString())?.value?.vote_average)
+        assertEquals(fakeTvShows.results[0].vote_count, viewModel?.getMovieDetail(movieId.toString())?.value?.vote_count)
     }
 }

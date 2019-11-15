@@ -26,15 +26,16 @@ class SingleFragmentActivity : AppCompatActivity() {
     }
 
     fun setFragment(fragment: Fragment) {
-        supportFragmentManager.commitNow(allowStateLoss = true) {
-            replace(R.id.frame, fragment, "TEST")
-        }
+        supportFragmentManager
+                .beginTransaction()
+                .add(R.id.frame, fragment, fragment.javaClass.name)
+                .commit()
     }
 
-    fun replaceFragment(fragment: Fragment) {
+    /*fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.commitNow(allowStateLoss = true) {
             replace(R.id.frame, fragment, "TEST")
         }
-    }
+    }*/
 
 }

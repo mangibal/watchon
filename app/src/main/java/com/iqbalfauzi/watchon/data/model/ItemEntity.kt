@@ -1,4 +1,4 @@
-package com.iqbalfauzi.watchon.data
+package com.iqbalfauzi.watchon.data.model
 
 /**
  * Created by Iqbal Fauzi on 15:33 16/10/19
