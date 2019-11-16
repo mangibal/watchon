@@ -45,9 +45,9 @@ android {
         it.buildConfigField 'String', 'BASE_URL', '"https://api.themoviedb.org/3/"'
         it.buildConfigField 'String', 'BASE_URL_IMAGE', '"https://image.tmdb.org/t/p/w600_and_h900_bestv2"'
     }
-    /*useLibrary 'android.test.runner'
+    useLibrary 'android.test.runner'
     useLibrary 'android.test.base'
-    useLibrary 'android.test.mock'*/
+    useLibrary 'android.test.mock'
 }
 
 dependencies {
@@ -69,10 +69,10 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.preference:preference:1.1.0'
     implementation "androidx.annotation:annotation:$androidXAnnotations"
-    implementation 'androidx.navigation:navigation-fragment:2.1.0'
+    /*implementation 'androidx.navigation:navigation-fragment:2.1.0'
     implementation 'androidx.navigation:navigation-ui:2.1.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.1.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.1.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.1.0'*/
     kapt "com.android.databinding:compiler:3.1.4"
 
     // Koin AndroidX
