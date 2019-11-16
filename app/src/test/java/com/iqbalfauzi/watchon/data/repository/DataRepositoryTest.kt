@@ -37,9 +37,6 @@ class DataRepositoryTest {
     private val fakeMovieResponse = Gson().fromJson(FakeJson.jsonMovies, DataResponse::class.java)
     private val fakeTvShowResponse = Gson().fromJson(FakeJson.jsonTvShow, DataResponse::class.java)
 
-    private lateinit var movie : ResultEntity
-    private lateinit var tvShow : ResultEntity
-
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
