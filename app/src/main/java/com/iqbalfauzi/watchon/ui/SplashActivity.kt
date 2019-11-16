@@ -28,15 +28,15 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed({
             this.goToActivity(MainActivity::class.java, null, true)
         }, 2000)
-
-        val s = "Iqbal Fauzi".toSpannable()
     }
 
     private fun setAnimation() {
         with(dataBinding) {
             val fadeIn = AlphaAnimation(0f, 1f)
-            fadeIn.interpolator = DecelerateInterpolator()
-            fadeIn.duration = 1000
+            fadeIn.apply {
+                interpolator = DecelerateInterpolator()
+                duration = 1000
+            }
 
             val animation = AnimationSet(false)
             animation.addAnimation(fadeIn)
@@ -46,9 +46,9 @@ class SplashActivity : AppCompatActivity() {
 
     private fun checkScreenType() {
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        val attrib = window.attributes
+        val attribute = window.attributes
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            attrib.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            attribute.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
     }
 }

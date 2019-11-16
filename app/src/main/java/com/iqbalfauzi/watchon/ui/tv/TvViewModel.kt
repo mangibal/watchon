@@ -1,12 +1,15 @@
 package com.iqbalfauzi.watchon.ui.tv
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.iqbalfauzi.watchon.utils.DataDummy
-import com.iqbalfauzi.watchon.data.ItemEntity
+import com.iqbalfauzi.watchon.data.model.ItemEntity
+import com.iqbalfauzi.watchon.data.repository.DataRepository
+import com.iqbalfauzi.watchon.data.model.ItemListEntity
+import com.iqbalfauzi.watchon.data.model.ResultEntity
 
-class TvViewModel : ViewModel() {
+class TvViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
-    fun getTvData(): List<ItemEntity> {
-        return DataDummy.getDataTv()
-    }
+    fun getTvShows(): LiveData<List<ResultEntity>> = dataRepository.getTvShows()
+
 }

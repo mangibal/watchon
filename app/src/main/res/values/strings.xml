@@ -14,4 +14,5 @@
     <string name="text_popularity">Popularity</string>
     <string name="text_overview">Overview</string>
     <string name="score">Score</string>
+    <string name="image_banner">Image Banner</string>
 </resources>
