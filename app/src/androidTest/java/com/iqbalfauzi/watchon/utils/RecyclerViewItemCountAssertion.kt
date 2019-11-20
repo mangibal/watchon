@@ -6,6 +6,7 @@ import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewAssertion
 
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import org.hamcrest.Matcher
 import org.hamcrest.core.Is.`is`
 import org.junit.Assert.assertNotNull
 
@@ -13,7 +14,7 @@ import org.junit.Assert.assertNotNull
 /**
  * Created by Iqbal Fauzi on 11:06 28/10/19
  */
-open class RecyclerViewItemCountAssertion(private val expectedCount: Int) : ViewAssertion {
+class RecyclerViewItemCountAssertion(private val matcher: Matcher<Int>) : ViewAssertion {
 
     override fun check(view: View, noViewFoundException: NoMatchingViewException?) {
         if (noViewFoundException != null) {
@@ -22,7 +23,17 @@ open class RecyclerViewItemCountAssertion(private val expectedCount: Int) : View
 
         val recyclerView = view as RecyclerView
         val adapter = recyclerView.adapter
-        assertNotNull(adapter)
-        assertThat(adapter!!.itemCount, `is`(expectedCount))
+        assertThat(adapter?.itemCount, matcher)
+    }
+
+    companion object {
+
+        fun withItemCount(expectedCount: Int): RecyclerViewItemCountAssertion {
+            return withItemCount(`is`(expectedCount))
+        }
+
+        private fun withItemCount(matcher: Matcher<Int>): RecyclerViewItemCountAssertion {
+            return RecyclerViewItemCountAssertion(matcher)
+        }
     }
 }

@@ -4,7 +4,7 @@ import android.os.Handler
 import com.iqbalfauzi.watchon.data.model.DataResponse
 import com.iqbalfauzi.watchon.data.model.ResultEntity
 import com.iqbalfauzi.watchon.helper.ApiClient
-import com.iqbalfauzi.watchon.utils.EspressoIdlingResource
+import com.iqbalfauzi.watchon.utils.EspressoIdlingResourceJava
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,7 +18,7 @@ open class RemoteRepository(private val apiClient: ApiClient) {
     private val responseHandler = Handler()
 
     fun getMovies(getMovieCallback: GetMovieCallback) {
-        EspressoIdlingResource.increment()
+        EspressoIdlingResourceJava.increment()
         responseHandler.postDelayed({
             request.getMovies().enqueue(object : Callback<DataResponse> {
                 override fun onFailure(call: Call<DataResponse>, t: Throwable) {
@@ -33,7 +33,7 @@ open class RemoteRepository(private val apiClient: ApiClient) {
     }
 
     fun getMovieDetail(movieId: String, getMovieDetailCallback: GetMovieDetailCallback) {
-        EspressoIdlingResource.increment()
+        EspressoIdlingResourceJava.increment()
         val responseHandler = Handler()
         responseHandler.postDelayed({
             request.getMovieDetails(movieId).enqueue(object : Callback<ResultEntity> {
@@ -50,7 +50,7 @@ open class RemoteRepository(private val apiClient: ApiClient) {
     }
 
     fun getTvShowDetail(tvId: String, getTvShowDetailCallback: GetTvShowDetailCallback) {
-        EspressoIdlingResource.increment()
+        EspressoIdlingResourceJava.increment()
         responseHandler.postDelayed({
             request.getTvShowDetail(tvId).enqueue(object : Callback<ResultEntity> {
                 override fun onFailure(call: Call<ResultEntity>, t: Throwable) {
@@ -66,7 +66,7 @@ open class RemoteRepository(private val apiClient: ApiClient) {
     }
 
     fun getTvShows(getTvShowsCallback: GetTvShowsCallback) {
-        EspressoIdlingResource.increment()
+        EspressoIdlingResourceJava.increment()
         responseHandler.postDelayed({
             request.getTvShows().enqueue(object : Callback<DataResponse> {
                 override fun onFailure(call: Call<DataResponse>, t: Throwable) {
@@ -102,11 +102,11 @@ open class RemoteRepository(private val apiClient: ApiClient) {
 
     companion object {
         private const val SERVICE_LATENCY: Long = 2000
-        private var INSTANCE: RemoteRepository? = null
+        private var INSTANCE: RemoteRepositoryJava? = null
 
-        fun getInstance(apiClient: ApiClient): RemoteRepository {
+        fun getInstance(apiClient: ApiClient): RemoteRepositoryJava {
             if (INSTANCE == null) {
-                INSTANCE = RemoteRepository(apiClient)
+                INSTANCE = RemoteRepositoryJava(apiClient)
             }
             return INSTANCE!!
         }

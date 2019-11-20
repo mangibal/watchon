@@ -5,6 +5,7 @@ import android.os.Handler;
 import com.iqbalfauzi.watchon.data.model.ResultEntity;
 import com.iqbalfauzi.watchon.data.model.DataResponse;
 import com.iqbalfauzi.watchon.helper.ApiClient;
+import com.iqbalfauzi.watchon.utils.EspressoIdlingResource;
 import com.iqbalfauzi.watchon.utils.EspressoIdlingResourceJava;
 
 import java.util.List;

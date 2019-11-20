@@ -9,6 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.iqbalfauzi.watchon.R
 import com.iqbalfauzi.watchon.data.model.ItemListEntity
+import com.iqbalfauzi.watchon.utils.EspressoIdlingResource
 import com.iqbalfauzi.watchon.utils.EspressoIdlingResourceJava
 import com.iqbalfauzi.watchon.utils.FakeDataDummy
 import org.junit.After
@@ -86,7 +87,6 @@ class DetailActivityTest {
             check(matches(isDisplayed()))
             check(matches(withText(dummyMovie.overview)))
         }
-
 
         /*onView(withId(R.id.tv_title_detail)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_release_date_constraint)).check(matches(isDisplayed()))

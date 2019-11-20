@@ -6,10 +6,14 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
+import com.android21buttons.fragmenttestrule.FragmentTestRule
 import com.iqbalfauzi.watchon.R
 import com.iqbalfauzi.watchon.testing.SingleFragmentActivity
+import com.iqbalfauzi.watchon.ui.movie.MovieFragment
+import com.iqbalfauzi.watchon.utils.EspressoIdlingResource
 import com.iqbalfauzi.watchon.utils.EspressoIdlingResourceJava
 import com.iqbalfauzi.watchon.utils.RecyclerViewItemCountAssertion
+import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -21,13 +25,11 @@ import org.junit.Test
 class TvFragmentTest {
 
     @get:Rule
-    val activityRule = ActivityTestRule(SingleFragmentActivity::class.java)
-    private val tvFragment = TvFragment()
+    var fragmentTestRule: FragmentTestRule<*, TvFragment> = FragmentTestRule.create(TvFragment::class.java)
 
     @Before
     fun setUp() {
         IdlingRegistry.getInstance().register(EspressoIdlingResourceJava.getEspressoIdlingResource())
-        activityRule.activity.setFragment(tvFragment)
     }
 
     @After
@@ -38,7 +40,7 @@ class TvFragmentTest {
     @Test
     fun loadTvItems() {
         onView(withId(R.id.rv_tv_show)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_tv_show)).check(RecyclerViewItemCountAssertion(20))
+        onView(withId(R.id.rv_tv_show)).check(RecyclerViewItemCountAssertion(Matchers.greaterThan(10)))
     }
 
 }

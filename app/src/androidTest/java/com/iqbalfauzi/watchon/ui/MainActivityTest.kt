@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import com.iqbalfauzi.watchon.R
+import com.iqbalfauzi.watchon.utils.EspressoIdlingResource
 import com.iqbalfauzi.watchon.utils.EspressoIdlingResourceJava
 import org.junit.After
 import org.junit.Before
@@ -39,33 +40,15 @@ class MainActivityTest {
     fun testAppBehaviour() {
         //Visibility Check
         onView(withId(R.id.nav_view)).check(matches(isDisplayed()))
-        onView(withId(R.id.navigation_movie)).apply {
-            check(matches(isDisplayed()))
-            perform(click())
-        }
-
-        onView(withId(R.id.rv_movie)).apply {
-            check(matches(isDisplayed()))
-            perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-            pressBack()
-            check(matches(isDisplayed()))
-            perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
-            pressBack()
-        }
-
-        onView(withId(R.id.navigation_tv)).apply {
-            check(matches(isDisplayed()))
-            perform(click())
-        }
-
-        onView(withId(R.id.rv_tv_show)).apply {
-            check(matches(isDisplayed()))
-            perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-            pressBack()
-            check(matches(isDisplayed()))
-            perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
-            pressBack()
-        }
+        onView(withId(R.id.navigation_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.navigation_movie)).perform(click())
+        onView(withId(R.id.rv_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        pressBack()
+        onView(withId(R.id.navigation_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.navigation_tv)).perform(click())
+        onView(withId(R.id.rv_tv_show)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_tv_show)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
     }
 
 }
