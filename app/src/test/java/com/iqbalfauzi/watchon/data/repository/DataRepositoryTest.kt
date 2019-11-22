@@ -2,16 +2,13 @@ package com.iqbalfauzi.watchon.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.gson.Gson
-import com.iqbalfauzi.watchon.FakeData
 import com.iqbalfauzi.watchon.FakeJson
 import com.iqbalfauzi.watchon.LiveDataTest
-import com.iqbalfauzi.watchon.data.model.ItemListEntity
 import com.iqbalfauzi.watchon.data.model.DataResponse
-import com.iqbalfauzi.watchon.data.model.ResultEntity
 import com.iqbalfauzi.watchon.data.repository.local.LocalRepository
 import com.iqbalfauzi.watchon.data.repository.remote.RemoteRepository
+import com.iqbalfauzi.watchon.data.repository.remote.RemoteRepositoryJava
 import com.nhaarman.mockitokotlin2.*
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -31,7 +28,7 @@ class DataRepositoryTest {
     @Mock
     private lateinit var localRepository: LocalRepository
     @Mock
-    private lateinit var remoteRepository : RemoteRepository
+    private lateinit var remoteRepository : RemoteRepositoryJava
     private lateinit var dataRepositoryTest : FakeDataRepository
 
     private val fakeMovieResponse = Gson().fromJson(FakeJson.jsonMovies, DataResponse::class.java)
@@ -46,7 +43,7 @@ class DataRepositoryTest {
     @Test
     fun getMovies() {
         doAnswer {  invocation ->
-            (invocation.arguments[0] as RemoteRepository.GetMovieCallback).onSuccess(fakeMovieResponse.results)
+            (invocation.arguments[0] as RemoteRepositoryJava.GetMovieCallback).onSuccess(fakeMovieResponse.results)
             null
         }.whenever(remoteRepository).getMovies(any())
 
@@ -60,7 +57,7 @@ class DataRepositoryTest {
     @Test
     fun getTvShows() {
         doAnswer { invocation ->
-            (invocation.arguments[0] as RemoteRepository.GetTvShowsCallback).onSuccess(fakeTvShowResponse.results)
+            (invocation.arguments[0] as RemoteRepositoryJava.GetTvShowsCallback).onSuccess(fakeTvShowResponse.results)
             null
         }.whenever(remoteRepository).getTvShows(any())
 
@@ -74,7 +71,7 @@ class DataRepositoryTest {
     @Test
     fun getMovieDetail() {
         doAnswer { invocation ->
-            (invocation.arguments[0] as RemoteRepository.GetMovieDetailCallback).onSuccess(fakeMovieResponse.results[0])
+            (invocation.arguments[0] as RemoteRepositoryJava.GetMovieDetailCallback).onSuccess(fakeMovieResponse.results[0])
             null
         }.`when`(remoteRepository).getMovieDetail(eq(fakeMovieResponse.results[0].id.toString()), any())
     }
@@ -82,7 +79,7 @@ class DataRepositoryTest {
     @Test
     fun getTvShowDetail() {
         doAnswer { invocation ->
-            (invocation.arguments[0] as RemoteRepository.GetTvShowDetailCallback).onSuccess(fakeTvShowResponse.results[0])
+            (invocation.arguments[0] as RemoteRepositoryJava.GetTvShowDetailCallback).onSuccess(fakeTvShowResponse.results[0])
             null
         }.`when`(remoteRepository).getMovieDetail(eq(fakeTvShowResponse.results[0].id.toString()), any())
     }
